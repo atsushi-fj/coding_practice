@@ -50,6 +50,28 @@ class UnidirectionalLinkedList(object):
         previous_node.next = current_node.next
         current_node = None
 
+    def reverse_iterative(self) -> None:  # 逆順にする
+        previous_node = None
+        current_node = self.head
+        while current_node:
+            next_node = current_node.next
+            current_node.next = previous_node
+            previous_node = current_node
+            current_node = next_node
+        self.head = previous_node
+
+    def reverse_recursive(self) -> None:  # 逆順（再帰的）
+        def _reverse_recursive(current_node: Node, previous_node: Node) -> Node:
+            if not current_node:  # 起点となる部分
+                return previous_node
+            next_node = current_node.next  # whileの処理部分
+            current_node.next = previous_node
+            previous_node = current_node
+            current_node = next_node
+            return _reverse_recursive(current_node, previous_node)  # 繰り返す
+
+        self.head = _reverse_recursive(self.head, None)  # インナー関数の実行の引数で初期化
+
 
 if __name__ == '__main__':
     l = UnidirectionalLinkedList()
@@ -64,14 +86,12 @@ if __name__ == '__main__':
     l.remove(2)
     l.print()
 
+    print("###########################")
 
+    l.reverse_iterative()
+    l.print()
 
+    print("###########################")
 
-
-
-
-
-
-
-
-
+    l.reverse_recursive()
+    l.print()
